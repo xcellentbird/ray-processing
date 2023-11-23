@@ -1,6 +1,7 @@
-import pyarrow as pa
-from dataclasses import dataclass
 from dataclasses import asdict
+from dataclasses import dataclass
+
+import pyarrow as pa
 
 
 @dataclass

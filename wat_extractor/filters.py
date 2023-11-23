@@ -1,8 +1,3 @@
-from io import BytesIO
-import requests
-from PIL import Image
-
-
 def is_in_alt(_link):
     if _link.get('alt'):
         return True

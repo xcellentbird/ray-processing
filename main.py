@@ -2,8 +2,8 @@ from pathlib import Path
 
 import ray
 
-from wat_extractor.extractor import WatExtractProcess, download_wat_paths_file
 from attr_tagging.tagger import AttrTagProcess
+from wat_extractor.extractor import WatExtractProcess, download_wat_paths_file
 
 DATA_ROOT = Path('data')
 WAT_PATHS_PATH = Path(DATA_ROOT, 'wat.paths')  # '/mnt/az-files/wat.paths'

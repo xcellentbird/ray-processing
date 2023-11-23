@@ -1,8 +1,9 @@
-from pathlib import Path
 import functools
-import requests
-from io import BytesIO
 import logging
+from io import BytesIO
+from pathlib import Path
+
+import requests
 
 
 @functools.lru_cache()
