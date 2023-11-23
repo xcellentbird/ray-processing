@@ -1,0 +1,5 @@
+pip:
+  - boto3
+  - pyarrow
+  - warcio
+  - funcy
