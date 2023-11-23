@@ -5,8 +5,8 @@ import ray
 from attr_tagging.tagger import AttrTagProcess
 from wat_extractor.extractor import WatExtractProcess, download_wat_paths_file
 
-DATA_ROOT = Path('data')
-WAT_PATHS_PATH = Path(DATA_ROOT, 'wat.paths')  # '/mnt/az-files/wat.paths'
+DATA_ROOT = Path('mnt', 'az-files', 'data')
+WAT_PATHS_PATH = Path(DATA_ROOT, 'wat.paths')
 
 if __name__ == '__main__':
     if not ray.is_initialized():
@@ -14,8 +14,8 @@ if __name__ == '__main__':
 
     download_wat_paths_file(WAT_PATHS_PATH)
 
-    extracted_path = Path(DATA_ROOT, 'extracted.parquet')  # Path('/mnt', 'az-files', 'data', 'extracted')
+    extracted_path = Path(DATA_ROOT, 'extracted.parquet')
     WatExtractProcess(WAT_PATHS_PATH).execute(extracted_path)
 
-    tagged_path = Path(DATA_ROOT, 'tagged.parquet')  # Path('/mnt', 'az-files', 'data', 'tagged')
+    tagged_path = Path(DATA_ROOT, 'tagged.parquet')
     AttrTagProcess(extracted_path).execute(tagged_path)
