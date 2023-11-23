@@ -64,9 +64,7 @@ class WatExtractProcess:
     def extract_and_save_data(self, wat_path, parquet_path, chunk_size=10000):
         Path(parquet_path).parent.mkdir(parents=True, exist_ok=True)
 
-        logging.info(f'Extracting data from {wat_path} and saving to {parquet_path}')
         schema = ImageAltData.arrow_schema()
-
         with pq.ParquetWriter(parquet_path, schema=schema) as writer:
             wat_file = self.s3_loader.load(object_name=wat_path)
 
