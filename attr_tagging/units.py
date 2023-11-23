@@ -22,11 +22,11 @@ def read_badwords_list():
 
 
 def validate_image_url(mapper):
-    def wrapper(image, image_url):
+    def wrapper(image, image_url, alt_text):
         if image is None:
             return None
 
-        return mapper(image, image_url)
+        return mapper(image, image_url, alt_text)
 
     return wrapper
 
