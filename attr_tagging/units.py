@@ -38,7 +38,7 @@ def get_image_url_suffix(image, image_url, alt_text):
 
 @validate_image_url
 def get_image_size(image, image_url, alt_text):
-    return image.shape
+    return image.size
 
 
 def image_exists(image, image_url, alt_text):

@@ -4,8 +4,10 @@ import ray
 
 from attr_tagging.tagger import AttrTagProcess
 from wat_extractor.extractor import WatExtractProcess, download_wat_paths_file
+from config import IN_KUBERNETES
 
-DATA_ROOT = Path('/mnt', 'az-files', 'data')
+
+DATA_ROOT = Path('/mnt', 'az-files', 'data') if IN_KUBERNETES else Path('data')
 WAT_PATHS_PATH = Path(DATA_ROOT, 'wat.paths')
 
 if __name__ == '__main__':
