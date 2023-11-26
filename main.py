@@ -14,7 +14,9 @@ if __name__ == '__main__':
     if not ray.is_initialized():
         ray.init()
 
-    download_wat_paths_file(WAT_PATHS_PATH)
+    DATA_ROOT.mkdir(parents=True, exist_ok=True)
+
+    #download_wat_paths_file(WAT_PATHS_PATH)
 
     extracted_path = Path(DATA_ROOT, 'extracted.parquet')
     WatExtractProcess(WAT_PATHS_PATH).execute(extracted_path, num_wat_paths=256)
