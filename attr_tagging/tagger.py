@@ -52,13 +52,11 @@ class BatchMapper:
 
 
 class AttrTagProcess:
-    def __init__(self, dataset_path):
-        self.dataset_path = dataset_path
-        self.ds = self.load_dataset()
+    @property
+    def batch_mapper(self):
+        return BatchMapper.batch_map
 
-    def load_dataset(self):
-        return ray.data.read_parquet(self.dataset_path)
-
-    def execute(self, save_path):
-        mapped_ds = self.ds.map_batches(BatchMapper.batch_map)
-        mapped_ds.repartition(1024).write_parquet(save_path)
+    def execute(self, input_dataset_path, save_path):
+        ds = ray.data.read_parquet(input_dataset_path)
+        tagged_ds = ds.map_batches(self.batch_mapper, batch_size=20)
+        tagged_ds.write_parquet(save_path)

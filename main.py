@@ -22,4 +22,4 @@ if __name__ == '__main__':
     WatExtractProcess(WAT_PATHS_PATH).execute(extracted_path, num_wat_paths=256)
 
     tagged_path = Path(DATA_ROOT, 'tagged.parquet')
-    AttrTagProcess(extracted_path).execute(tagged_path)
+    AttrTagProcess().execute(extracted_path, tagged_path)
