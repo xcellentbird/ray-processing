@@ -1,11 +1,12 @@
+import asyncio
 from collections import defaultdict
 from io import BytesIO
 from typing import Dict
 
 import numpy as np
 import ray
-import requests
 from PIL import Image
+from aiohttp import ClientSession
 
 from attr_tagging.units import get_image_url_suffix, get_image_size, image_exists, contains_badwords
 
@@ -19,14 +20,15 @@ class BatchMapper:
     }
 
     @staticmethod
-    def read_image(image_url):
-        try:
-            response = requests.get(image_url)
-            if response.status_code == 200:
-                return Image.open(BytesIO(response.content))
-        except:
-            pass
-
+    async def read_image(image_url):
+        async with ClientSession() as session:
+            try:
+                async with session.get(image_url) as response:
+                    if response.status == 200:
+                        image_data = await response.read()
+                        return Image.open(BytesIO(image_data))
+            except Exception as e:
+                pass
         return None
 
     @classmethod
@@ -34,10 +36,13 @@ class BatchMapper:
         image_urls = batch['image_url']
         alt_texts = batch['alt_text']
 
-        new_columns = defaultdict(list)
-        for image_url, alt_text in zip(image_urls, alt_texts):
-            image = cls.read_image(image_url)
+        loop = asyncio.get_event_loop()
+        images = loop.run_until_complete(
+            asyncio.gather(*(cls.read_image(url) for url in image_urls))
+        )
 
+        new_columns = defaultdict(list)
+        for image, image_url, alt_text in zip(images, image_urls, alt_texts):
             for col_name, mapper in cls.mappers.items():
                 new_columns[col_name].append(mapper(image, image_url, alt_text))
 
